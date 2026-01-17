@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Admin Orders</title>
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+<h2>All Orders</h2>
+<div id="orders"></div>
+
+<script>
+fetch("http://localhost:3000/api/admin/orders", {
+  headers: {
+    Authorization: "Bearer " + localStorage.getItem("token")
+  }
+})
+.then(res => res.json())
+.then(data => {
+  document.getElementById("orders").innerHTML =
+    data.map(o => `<p>${o.network} - ${o.phone}</p>`).join("");
+});
+</script>
+
+
+</body>
+</html>

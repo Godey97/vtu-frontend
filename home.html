@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <title>Dashboard</title>
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+<header class="navbar">
+  <h3>Data Bundle</h3>
+  <button onclick="logout()">Logout</button>
+</header>
+
+<main class="container">
+
+  <div class="card wallet">
+    <p>Wallet Balance</p>
+    <h1>GHS <span id="wallet">0.00</span></h1>
+    <input id="amount" type="number" placeholder="Amount">
+    <button onclick="deposit()">Deposit</button>
+  </div>
+
+  <div class="card">
+    <h3>Buy Data Bundle</h3>
+
+    <select id="network">
+      <option value="">Select Network</option>
+      <option>MTN</option>
+      <option>Telecel</option>
+      <option>AirtelTigo</option>
+    </select>
+
+    <input id="phone" placeholder="Phone Number">
+
+    <select id="bundle">
+      <option value="">Select Bundle</option>
+      <option value="4.5">1GB - GHS 4.5</option>
+      <option value="9.0">2GB - GHS 9.0</option>
+      <option value="14">3GB - GHS 13.02</option>
+      <option value="18.0">4GB - GHS 18.03</option>
+      <option value="21.5">5GB - GHS 21.52</option>
+      <option value="26.0">6GB - GHS 26.0</option>
+      <option value="34.5">8GB - GHS 34.5</option>
+      <option value="41.0">10GB - GHS 41.0</option>
+      <option value="61.0">15GB - GHS 61.05</option>
+      <option value="81.0">20GB - GHS 81.0</option>
+      <option value="103">25GB - GHS 103.0</option>
+      <option value="120">30GB - GHS 120.0</option>
+      <option value="161">40GB - GHS 161</option>
+      <option value="198">50GB - GHS 198.03</option>
+      <option value="375">100GB - GHS 375.5</option>
+      
+    </select>
+
+    <button class="primary" onclick="addToCart()">Add to Cart</button>
+  </div>
+
+</main>
+
+<nav class="bottom-nav">
+  <a href="home.html" class="active">Home</a>
+  <a href="cart.html">Cart</a>
+  <a href="orders.html">Orders</a>
+</nav>
+
+<div id="toast" class="toast"></div>
+
+<script src="js/app.js"></script>
+<script>loadWallet();</script>
+</body>
+</html>

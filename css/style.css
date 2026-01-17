@@ -1,0 +1,177 @@
+* {
+  box-sizing: border-box;
+  font-family: "Segoe UI", sans-serif;
+}
+
+body {
+  margin: 0;
+  background: linear-gradient(180deg, #0f4c81, #eaf2fb);
+  min-height: 100vh;
+}
+
+/* ================= AUTH ================= */
+.auth-body {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+}
+
+.auth-card {
+  background: #fff;
+  width: 95%;
+  max-width: 360px;
+  padding: 25px;
+  border-radius: 14px;
+  box-shadow: 0 20px 40px rgba(0,0,0,.15);
+  text-align: center;
+}
+
+.auth-card h2 {
+  margin-bottom: 5px;
+  color: #0f4c81;
+}
+
+.auth-card p {
+  font-size: 14px;
+  color: #666;
+}
+
+.auth-card input {
+  width: 100%;
+  padding: 12px;
+  margin: 10px 0;
+  border-radius: 8px;
+  border: 1px solid #ddd;
+}
+
+.auth-card button {
+  width: 100%;
+  padding: 12px;
+  background: linear-gradient(135deg, #1e88e5, #42a5f5);
+  color: #fff;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+}
+
+.auth-link {
+  margin-top: 12px;
+  font-size: 14px;
+}
+
+/* ================= NAVBAR ================= */
+.navbar {
+  background: #fff;
+  padding: 14px 18px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  box-shadow: 0 5px 15px rgba(0,0,0,.1);
+}
+
+.navbar h3 {
+  color: #0f4c81;
+  margin: 0;
+}
+
+.navbar button {
+  background: #e53935;
+  color: #fff;
+  border: none;
+  padding: 8px 14px;
+  border-radius: 6px;
+}
+
+/* ================= CONTENT ================= */
+.container {
+  padding: 20px;
+  padding-bottom: 90px;
+}
+
+.card {
+  background: #fff;
+  padding: 20px;
+  border-radius: 14px;
+  box-shadow: 0 10px 25px rgba(0,0,0,.12);
+  margin-bottom: 20px;
+}
+
+.wallet {
+  text-align: center;
+}
+
+.wallet h1 {
+  margin: 10px 0;
+  color: #0f4c81;
+}
+
+.wallet input {
+  width: 100%;
+  padding: 10px;
+  margin-top: 10px;
+}
+
+.wallet button {
+  margin-top: 10px;
+  width: 100%;
+  padding: 12px;
+  background: #2e7d32;
+  color: #fff;
+  border: none;
+  border-radius: 8px;
+}
+
+/* ================= FORMS ================= */
+select, input[type="tel"], input[type="number"] {
+  width: 100%;
+  padding: 12px;
+  margin: 10px 0;
+  border-radius: 8px;
+  border: 1px solid #ddd;
+}
+
+.primary {
+  background: #fb8c00;
+  color: #fff;
+  padding: 12px;
+  width: 100%;
+  border: none;
+  border-radius: 8px;
+}
+
+/* ================= BOTTOM NAV ================= */
+.bottom-nav {
+  position: fixed;
+  bottom: 0;
+  width: 100%;
+  background: #fff;
+  display: flex;
+  justify-content: space-around;
+  padding: 12px 0;
+  box-shadow: 0 -5px 15px rgba(0,0,0,.15);
+}
+
+.bottom-nav a {
+  text-decoration: none;
+  color: #666;
+  font-weight: 600;
+}
+
+.bottom-nav .active {
+  color: #1e88e5;
+}
+
+/* ================= TOAST ================= */
+.toast {
+  position: fixed;
+  bottom: 80px;
+  left: 50%;
+  transform: translateX(-50%);
+  background: #333;
+  color: #fff;
+  padding: 10px 18px;
+  border-radius: 6px;
+  display: none;
+}
+.toast.show { display: block; }
