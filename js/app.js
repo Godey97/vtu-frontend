@@ -1,13 +1,12 @@
 /* ======================================
-   GLOBAL CONFIG
+   GLOBAL API CONFIG
 ====================================== */
-const API = "http://localhost:3000/api";
+const API_BASE = "https://vtu-backend-72rg.onrender.com/api";
 
 /* ======================================
    AUTH HELPERS
 ====================================== */
 const getToken = () => localStorage.getItem("token");
-const getUserId = () => localStorage.getItem("userId");
 
 function requireAuth() {
   if (!getToken()) {
@@ -28,7 +27,7 @@ function logout() {
 async function apiFetch(endpoint, options = {}) {
   requireAuth();
 
-  const res = await fetch(`${API}${endpoint}`, {
+  const res = await fetch(`${API_BASE}${endpoint}`, {
     ...options,
     headers: {
       "Content-Type": "application/json",
@@ -39,7 +38,6 @@ async function apiFetch(endpoint, options = {}) {
 
   const data = await res.json();
   if (!res.ok) throw new Error(data.error || "Request failed");
-
   return data;
 }
 
@@ -76,7 +74,7 @@ async function buyData() {
 ====================================== */
 async function loadWallet() {
   try {
-    const data = await apiFetch("/wallet/balance", { method: "GET" });
+    const data = await apiFetch("/wallet/balance");
     document.getElementById("walletBalance").textContent =
       `₵${Number(data.balance).toFixed(2)}`;
   } catch (err) {
@@ -110,24 +108,18 @@ async function loadAdminOrders() {
     const box = document.getElementById("adminOrders");
     if (!box) return;
 
-    const orders = await apiFetch("/admin/orders", { method: "GET" });
+    const orders = await apiFetch("/admin/orders");
 
-    box.innerHTML = "";
-    if (orders.length === 0) {
-      box.innerHTML = "<p>No orders found</p>";
-      return;
-    }
-
-    orders.forEach(o => {
-      box.innerHTML += `
+    box.innerHTML = orders.length
+      ? orders.map(o => `
         <div class="card">
-          <strong>User ID:</strong> ${o.userId}<br>
+          <strong>User:</strong> ${o.userId}<br>
           <strong>Network:</strong> ${o.network}<br>
           <strong>Bundle:</strong> ${o.bundle}<br>
           <strong>Phone:</strong> ${o.phone}
-        </div>
-      `;
-    });
+        </div>`).join("")
+      : "<p>No orders found</p>";
+
   } catch (err) {
     showToast(err.message, "error");
   }

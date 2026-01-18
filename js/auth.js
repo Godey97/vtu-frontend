@@ -1,4 +1,7 @@
-const API = "http://localhost:3000/api";
+/* ======================================
+   GLOBAL API CONFIG
+====================================== */
+const API_BASE = "https://vtu-backend-72rg.onrender.com/api";
 
 /* =====================
    SIGNUP
@@ -13,7 +16,7 @@ async function signup() {
   }
 
   try {
-    const res = await fetch(`${API}/signup`, {
+    const res = await fetch(`${API_BASE}/signup`, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ email, password })
@@ -36,7 +39,7 @@ async function signup() {
 }
 
 /* =====================
-   LOGIN (FIXED)
+   LOGIN
 ===================== */
 async function login() {
   const email = document.getElementById("loginEmail").value.trim();
@@ -48,7 +51,7 @@ async function login() {
   }
 
   try {
-    const res = await fetch(`${API}/login`, {
+    const res = await fetch(`${API_BASE}/login`, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ email, password })
@@ -61,13 +64,9 @@ async function login() {
       return;
     }
 
-    // ✅ STORE USER SESSION
+    // ✅ SAVE SESSION
     localStorage.setItem("userId", data.userId);
-
-    // OPTIONAL (future JWT support)
-    if (data.token) {
-      localStorage.setItem("token", data.token);
-    }
+    if (data.token) localStorage.setItem("token", data.token);
 
     window.location.href = "home.html";
 
@@ -81,8 +80,7 @@ async function login() {
    LOGOUT
 ===================== */
 function logout() {
-  localStorage.removeItem("userId");
-  localStorage.removeItem("token");
+  localStorage.clear();
   window.location.href = "index.html";
 }
 
@@ -90,8 +88,7 @@ function logout() {
    PROTECT PAGES
 ===================== */
 function protect() {
-  const userId = localStorage.getItem("userId");
-  if (!userId) {
+  if (!localStorage.getItem("userId")) {
     window.location.href = "index.html";
   }
 }
