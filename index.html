@@ -1,25 +1,26 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Login</title>
   <link rel="stylesheet" href="css/style.css">
 </head>
 <body class="auth-body">
 
-<div class="auth-card">
-  <h2>Welcome Back</h2>
-  <p>Login to continue</p>
+  <div class="auth-card">
+    <h2>Login</h2>
 
-  <input id="loginEmail" placeholder="Email">
-  <input id="loginPassword" type="password" placeholder="Password">
+    <div id="message"></div>
 
-  <button onclick="login()">Login</button>
+    <input id="loginEmail" type="email" placeholder="Email">
+    <input id="loginPassword" type="password" placeholder="Password">
 
-  <p class="auth-link">New user? <a href="signup.html">Sign up</a></p>
-</div>
+    <button type="button" onclick="login()" data-text="Login">Login</button>
 
-<script src="js/auth.js"></script>
+    <p>
+      No account? <a href="signup.html">Sign up</a>
+    </p>
+  </div>
+
+  <script src="js/auth.js"></script>
 </body>
 </html>

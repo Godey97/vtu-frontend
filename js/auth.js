@@ -4,149 +4,123 @@
 const API_BASE = "https://vtu-backend-72rg.onrender.com/api";
 
 /* ======================================
-   UTILITIES
+   HELPERS
 ====================================== */
-function getToken() {
-  return localStorage.getItem("token");
+function showMessage(msg, type = "error") {
+  const box = document.getElementById("message");
+  if (!box) return;
+
+  box.textContent = msg;
+  box.className = type;
 }
 
-function isAuthenticated() {
-  return !!getToken();
-}
-
-function logout(redirect = true) {
-  localStorage.removeItem("token");
-  localStorage.removeItem("userId");
-
-  if (redirect) {
-    window.location.href = "index.html";
-  }
-}
-
-/* ======================================
-   API HELPER (AUTO AUTH HEADER)
-====================================== */
-async function apiFetch(endpoint, options = {}) {
-  const headers = options.headers || {};
-
-  if (isAuthenticated()) {
-    headers.Authorization = `Bearer ${getToken()}`;
-  }
-
-  const res = await fetch(`${API_BASE}${endpoint}`, {
-    ...options,
-    headers: {
-      "Content-Type": "application/json",
-      ...headers
-    }
-  });
-
-  // Auto logout if token is invalid/expired
-  if (res.status === 401) {
-    logout();
-    throw new Error("Session expired. Please login again.");
-  }
-
-  return res;
-}
-
-/* ======================================
-   AUTH GUARD (PROTECT PAGES)
-====================================== */
-function requireAuth() {
-  if (!isAuthenticated()) {
-    window.location.href = "index.html";
-  }
+function setLoading(btn, isLoading) {
+  if (!btn) return;
+  btn.disabled = isLoading;
+  btn.textContent = isLoading ? "Please wait..." : btn.dataset.text;
 }
 
 /* ======================================
    SIGNUP
 ====================================== */
 async function signup() {
-  const email = document.getElementById("email")?.value.trim();
-  const password = document.getElementById("password")?.value.trim();
+  const email = document.getElementById("email").value.trim();
+  const password = document.getElementById("password").value.trim();
+  const btn = document.querySelector("button");
 
   if (!email || !password) {
-    alert("Please fill all fields");
+    showMessage("All fields are required");
     return;
   }
 
+  setLoading(btn, true);
+
   try {
-    const res = await apiFetch("/signup", {
+    const res = await fetch(`${API_BASE}/signup`, {
       method: "POST",
+      headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ email, password })
     });
 
     const data = await res.json();
 
     if (!res.ok) {
-      alert(data.error || "Signup failed");
+      showMessage(data.error || "Signup failed");
+      setLoading(btn, false);
       return;
     }
 
-    alert("Signup successful. Please login.");
-    window.location.href = "index.html";
+    showMessage("Signup successful! Redirecting...", "success");
+
+    setTimeout(() => {
+      window.location.href = "index.html";
+    }, 1500);
 
   } catch (err) {
-    alert(err.message || "Server error");
     console.error(err);
+    showMessage("Server error. Try again.");
   }
+
+  setLoading(btn, false);
 }
 
 /* ======================================
    LOGIN
 ====================================== */
 async function login() {
-  const email = document.getElementById("loginEmail")?.value.trim();
-  const password = document.getElementById("loginPassword")?.value.trim();
+  const email = document.getElementById("loginEmail").value.trim();
+  const password = document.getElementById("loginPassword").value.trim();
+  const btn = document.querySelector("button");
 
   if (!email || !password) {
-    alert("Please enter email and password");
+    showMessage("Enter email and password");
     return;
   }
 
+  setLoading(btn, true);
+
   try {
-    const res = await apiFetch("/login", {
+    const res = await fetch(`${API_BASE}/login`, {
       method: "POST",
+      headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ email, password })
     });
 
     const data = await res.json();
 
     if (!res.ok) {
-      alert(data.error || "Login failed");
+      showMessage(data.error || "Login failed");
+      setLoading(btn, false);
       return;
     }
 
-    // ✅ SAVE SESSION (TOKEN ONLY)
     localStorage.setItem("token", data.token);
     localStorage.setItem("userId", data.userId);
 
     window.location.href = "home.html";
 
   } catch (err) {
-    alert(err.message || "Server error");
     console.error(err);
+    showMessage("Server error");
+  }
+
+  setLoading(btn, false);
+}
+
+/* ======================================
+   AUTH GUARD
+====================================== */
+function requireAuth() {
+  const token = localStorage.getItem("token");
+  if (!token) {
+    window.location.href = "index.html";
   }
 }
 
 /* ======================================
-   OPTIONAL: FETCH USER WALLET
+   LOGOUT
 ====================================== */
-async function getWalletBalance() {
-  try {
-    const res = await apiFetch("/wallet/balance");
-    const data = await res.json();
-
-    if (!res.ok) {
-      alert(data.error || "Failed to load wallet");
-      return;
-    }
-
-    return data.balance;
-
-  } catch (err) {
-    console.error(err);
-    alert(err.message);
-  }
+function logout() {
+  localStorage.clear();
+  window.location.href = "index.html";
 }
